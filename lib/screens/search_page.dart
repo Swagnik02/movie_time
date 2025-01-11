@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_time/widgets/custom_movie_tile.dart';
 import 'package:movie_time/widgets/search_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:movie_time/providers/movie_provider.dart';
@@ -44,10 +46,13 @@ class _SearchPageState extends State<SearchPage> {
             return Center(child: Text('Error: ${provider.errorMessage}'));
           } else if (provider.movieList.isNotEmpty) {
             return ListView.builder(
+              scrollDirection: kIsWeb ? Axis.horizontal : Axis.vertical,
               itemCount: provider.movieList.length,
               itemBuilder: (context, index) {
                 final movie = provider.movieList[index];
-                return SearchTile(movie: movie);
+                return kIsWeb
+                    ? MovieTile(movie: movie)
+                    : SearchTile(movie: movie);
               },
             );
           } else {
